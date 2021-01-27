@@ -5,6 +5,8 @@ git clone https://github.com/JuliaLang/julia julia
 pushd julia
 git checkout vc/wasm
 # git checkout vc/wasm2
+mkdir build-native
+mkdir build-wasm
 make -j 8 O=build-native configure
 make -j 8 O=build-wasm configure
 

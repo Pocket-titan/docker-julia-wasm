@@ -46,7 +46,7 @@ RUN echo "LLVM_ROOT='/llvm-build/bin'" >> /emsdk/.emscripten && \
 RUN chmod +x ./configure_julia_wasm.sh ./build_julia_wasm.sh ./rebuild_js.sh
 RUN source /root/.bashrc && \
   ./configure_julia_wasm.sh && \
-  ./build_julia_wasm && \
+  ./build_julia_wasm.sh && \
   ./rebuild_js.sh
 # RUN source /root/.bashrc && ./build_julia_wasm.sh
 # RUN source /root/.bashrc && ./rebuild_js.sh

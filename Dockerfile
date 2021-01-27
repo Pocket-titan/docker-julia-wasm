@@ -29,7 +29,7 @@ RUN ./emsdk install latest emscripten-master-64bit binaryen-master-64bit
 RUN ./emsdk activate latest emscripten-master-64bit binaryen-master-64bit
 
 FROM builder AS llvm
-RUN git clone https://github.com/llvm/llvm-project /llvm-project
+RUN git clone -b release/12.x https://github.com/llvm/llvm-project /llvm-project
 RUN mkdir /llvm-build
 WORKDIR /llvm-build
 RUN cmake -G Ninja -DLLVM_ENABLE_PROJECTS="clang;lld" -DCMAKE_BUILD_TYPE=Release ../llvm-project/llvm

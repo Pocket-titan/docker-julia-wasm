@@ -32,7 +32,8 @@ FROM builder AS llvm
 RUN git clone https://github.com/llvm/llvm-project /llvm-project
 RUN mkdir /llvm-build
 WORKDIR /llvm-build
-RUN cmake -G Ninja -DLLVM_ENABLE_PROJECTS="clang;lld" -DCMAKE_BUILD_TYPE=Release ../llvm-project/llvm
+RUN CC=`which gcc` CXX=`which g++` CMAKE_MAKE_PROGRAM=`which make` \
+  cmake -G "Ninja" -DLLVM_ENABLE_PROJECTS="clang;lld" -DCMAKE_BUILD_TYPE=Release ../llvm-project/llvm
 RUN ninja -j 8
 
 FROM builder AS julia
@@ -46,7 +47,7 @@ RUN echo "LLVM_ROOT='/llvm-build/bin'" >> /emsdk/.emscripten && \
 RUN chmod +x ./configure_julia_wasm.sh ./build_julia_wasm.sh ./rebuild_js.sh
 RUN source /root/.bashrc && \
   ./configure_julia_wasm.sh && \
-  ./build_julia_wasm && \
+  ./build_julia_wasm.sh && \
   ./rebuild_js.sh
 # RUN source /root/.bashrc && ./build_julia_wasm.sh
 # RUN source /root/.bashrc && ./rebuild_js.sh

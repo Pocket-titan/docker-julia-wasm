@@ -7,7 +7,7 @@ source /emsdk/emsdk_env.sh
 
 pushd julia
 
-(cd build-wasm && make -C deps -j 8 BUILDING_HOST_TOOLS=1 install-libuv install-utf8proc)
-(cd build-wasm && make -C deps -j 8)
-(cd build-native && make -j 8)
-(cd build-wasm && make -j 8 julia-ui-release)
+(cd build-wasm && make VERBOSE=1 --trace -C deps -j 8 BUILDING_HOST_TOOLS=1 install-libuv install-utf8proc 2>&1 | tee log)
+(cd build-wasm && make VERBOSE=1 --trace -C deps -j 8 2>&1 | tee log)
+(cd build-native && make VERBOSE=1 --trace -j 8 2>&1 | tee log)
+(cd build-wasm && make VERBOSE=1 --trace -j 8 julia-ui-release 2>&1 | tee log)

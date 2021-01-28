@@ -46,7 +46,6 @@ RUN echo "LLVM_ROOT='/llvm-build/bin'" >> /emsdk/.emscripten && \
   echo "source /emsdk/emsdk_env.sh" >> "/root/.bashrc"
 
 # configure_julia_wasm.sh
-ENV DIR $( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )
 RUN git clone https://github.com/JuliaLang/julia julia
 WORKDIR /julia
 RUN git checkout vc/wasm
@@ -57,6 +56,7 @@ COPY /build-wasm/Make.user build-wasm/
 
 # build_julia_wasm.sh
 RUN source /root/.bashrc && \
+  export DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" && \
   (cd build-wasm && make VERBOSE=1 --trace -C deps -j 8 BUILDING_HOST_TOOLS=1 install-libuv install-utf8proc 2>&1 | tee log) && \
   (cd build-wasm && make VERBOSE=1 --trace -C deps -j 8 2>&1 | tee log) && \
   (cd build-native && make VERBOSE=1 --trace -j 8 2>&1 | tee log) && \

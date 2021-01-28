@@ -62,6 +62,8 @@ RUN source /root/.bashrc && \
   (cd build-native && make VERBOSE=1 --trace -j 8 2>&1 | tee log) && \
   (cd build-wasm && make VERBOSE=1 --trace -j 8 julia-ui-release 2>&1 | tee log)
 
+# rebuild_julia_wasm.sh
+
 # RUN chmod +x ./configure_julia_wasm.sh ./build_julia_wasm.sh ./rebuild_js.sh
 # RUN source /root/.bashrc && \
 #   ./configure_julia_wasm.sh && \

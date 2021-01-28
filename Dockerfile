@@ -44,11 +44,29 @@ COPY --from=llvm /llvm-build /llvm-build
 RUN echo "LLVM_ROOT='/llvm-build/bin'" >> /emsdk/.emscripten && \
   echo "export PATH=/llvm-build/bin:$PATH" >> "/root/.bashrc" && \
   echo "source /emsdk/emsdk_env.sh" >> "/root/.bashrc"
-RUN chmod +x ./configure_julia_wasm.sh ./build_julia_wasm.sh ./rebuild_js.sh
+
+# configure_julia_wasm.sh
+ENV DIR="$( cd \"$( dirname "${BASH_SOURCE[0]}" )\" >/dev/null 2>&1 && pwd )""
+RUN git clone https://github.com/JuliaLang/julia julia
+WORKDIR /julia
+RUN git checkout vc/wasm
+RUN make O=build-native configure && \
+  make O=build-wasm configure
+COPY /build-native/Make.user build-native/
+COPY /build-wasm/Make.user build-wasm/
+
+# build_julia_wasm.sh
 RUN source /root/.bashrc && \
-  ./configure_julia_wasm.sh && \
-  ./build_julia_wasm.sh && \
-  ./rebuild_js.sh
+  (cd build-wasm && make VERBOSE=1 --trace -C deps -j 8 BUILDING_HOST_TOOLS=1 install-libuv install-utf8proc 2>&1 | tee log) && \
+  (cd build-wasm && make VERBOSE=1 --trace -C deps -j 8 2>&1 | tee log) && \
+  (cd build-native && make VERBOSE=1 --trace -j 8 2>&1 | tee log) && \
+  (cd build-wasm && make VERBOSE=1 --trace -j 8 julia-ui-release 2>&1 | tee log)
+
+# RUN chmod +x ./configure_julia_wasm.sh ./build_julia_wasm.sh ./rebuild_js.sh
+# RUN source /root/.bashrc && \
+#   ./configure_julia_wasm.sh && \
+#   ./build_julia_wasm.sh && \
+#   ./rebuild_js.sh
 # RUN source /root/.bashrc && ./build_julia_wasm.sh
 # RUN source /root/.bashrc && ./rebuild_js.sh
 

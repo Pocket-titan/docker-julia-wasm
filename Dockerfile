@@ -46,7 +46,7 @@ RUN echo "LLVM_ROOT='/llvm-build/bin'" >> /emsdk/.emscripten && \
   echo "source /emsdk/emsdk_env.sh" >> "/root/.bashrc"
 
 # configure_julia_wasm.sh
-RUN git clone https://github.com/JuliaLang/julia julia
+RUN git clone https://github.com/JuliaLang/julia /julia
 WORKDIR /julia
 RUN git checkout vc/wasm
 RUN make O=build-native configure && \

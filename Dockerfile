@@ -1,6 +1,7 @@
 FROM debian:latest AS builder
 SHELL ["/bin/bash", "-c"]
 RUN apt-get update && apt-get -qq install -y --no-install-recommends \
+  pkg-config \
   python \
   python3-pip \
   curl \
@@ -14,10 +15,9 @@ RUN apt-get update && apt-get -qq install -y --no-install-recommends \
   gfortran \
   perl \
   wget \
-  m4 \
-  pkg-config
-# RUN curl -sL https://deb.nodesource.com/setup_10.x | bash && \
-#   apt-get -qq install -y nodejs
+  m4
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash && \
+  apt-get -qq install -y nodejs
 RUN pip3 install certifi
 
 FROM builder AS emsdk

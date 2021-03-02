@@ -2,6 +2,7 @@ FROM debian:latest AS builder
 SHELL ["/bin/bash", "-c"]
 RUN apt-get update && apt-get -qq install -y --no-install-recommends \
   pkg-config \
+  apt-utils \
   python \
   python3-pip \
   curl \

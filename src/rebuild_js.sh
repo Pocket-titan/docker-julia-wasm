@@ -20,7 +20,7 @@ popd
 pushd $DIR/julia/build-wasm
 make -C src debug -j
 
-emcc -g -v -DJL_DISABLE_LIBUV -Isrc -I../src -I../src/support -Lusr/lib -ljulia-debug \
+emcc -g3 -v -DJL_DISABLE_LIBUV -Isrc -I../src -I../src/support -Lusr/lib -ljulia-debug \
 -lLLVMSupport -lpcre2-8 -lgmp -lmpfr -ldSFMT $DIR/nsysimg/text.wasm.bc $DIR/nsysimg/data.wasm.bc ../ui/wasm-support.c \
 --no-heap-copy \
 --source-map-base http://localhost:8888/ -s WASM=1 -s ASSERTIONS=2 \
@@ -29,4 +29,4 @@ emcc -g -v -DJL_DISABLE_LIBUV -Isrc -I../src -I../src/support -Lusr/lib -ljulia-
 -s "EXTRA_EXPORTED_RUNTIME_METHODS=['stringToUTF8']" -s WASM_OBJECT_FILES=1 \
 -s ASYNCIFY_IMPORTS='["emscripten_sleep","jl_set_fiber","jl_swap_fiber","jl_start_fiber"]' \
 --pre-js ../src/jsvm-emscripten/boxed.js --js-library ../src/jsvm-emscripten/task.js --js-library ../src/jsvm-emscripten/jscall.js --emrun \
--s ASYNCIFY_BLACKLIST="$BLACKLIST" -fcolor-diagnostics -O3  -o $DIR/website/$WASM_NAME -s TOTAL_MEMORY=536870912 -g2 -s SAFE_HEAP=1 -s ASYNCIFY=1
+-s ASYNCIFY_BLACKLIST="$BLACKLIST" -fcolor-diagnostics -O3  -o $DIR/website/$WASM_NAME -s TOTAL_MEMORY=536870912 -s SAFE_HEAP=1 -s ASYNCIFY=1

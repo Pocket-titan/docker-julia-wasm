@@ -20,7 +20,7 @@ popd
 pushd $DIR/julia/build-wasm
 make -C src debug -j
 
-emcc -v -DJL_DISABLE_LIBUV -Isrc -I../src -I../src/support -Lusr/lib -Ljulia-debug \
+emcc -g -v -DJL_DISABLE_LIBUV -Isrc -I../src -I../src/support -Lusr/lib -ljulia-debug \
 -lLLVMSupport -lpcre2-8 -lgmp -lmpfr -ldSFMT $DIR/nsysimg/text.wasm.bc $DIR/nsysimg/data.wasm.bc ../ui/wasm-support.c \
 --no-heap-copy \
 --source-map-base http://localhost:8888/ -s WASM=1 -s ASSERTIONS=2 \

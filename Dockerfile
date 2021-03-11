@@ -26,8 +26,8 @@ RUN git clone https://github.com/emscripten-core/emsdk.git /emsdk
 WORKDIR /emsdk
 ENV EM_CACHE /emsdk/.data/cache
 RUN git pull
-RUN ./emsdk install latest emscripten-master-64bit binaryen-master-64bit
-RUN ./emsdk activate latest emscripten-master-64bit binaryen-master-64bit
+RUN ./emsdk install latest
+RUN ./emsdk activate latest
 
 FROM builder AS llvm
 RUN git clone -b release/12.x https://github.com/llvm/llvm-project /llvm-project

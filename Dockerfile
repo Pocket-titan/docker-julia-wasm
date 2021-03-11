@@ -65,15 +65,17 @@ RUN source /root/.bashrc && \
 
 # rebuild_julia_wasm.sh
 
-WORKDIR /
-COPY /src/rebuild_js.sh ./
-RUN chmod +x ./rebuild_js.sh
-RUN mkdir ./website
+# WORKDIR /
+# COPY /src/rebuild_js.sh ./
+# RUN chmod +x ./rebuild_js.sh
+# RUN mkdir ./website
+
 # RUN source /root/.bashrc && \
 #   ./configure_julia_wasm.sh && \
 #   ./build_julia_wasm.sh && \
 #   ./rebuild_js.sh
 # RUN source /root/.bashrc && ./build_julia_wasm.sh
-RUN source /root/.bashrc && ./rebuild_js.sh
+
+# RUN source /root/.bashrc && ./rebuild_js.sh
 
 CMD ["/bin/bash", "-l"]

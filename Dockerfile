@@ -35,7 +35,7 @@ RUN mkdir /llvm-build
 WORKDIR /llvm-build
 RUN CC=`which gcc` CXX=`which g++` CMAKE_MAKE_PROGRAM=`which make` \
   cmake -G "Ninja" -DLLVM_ENABLE_PROJECTS="clang;lld" -DCMAKE_BUILD_TYPE=Release ../llvm-project/llvm
-RUN ninja -j 4
+RUN ninja -j 8
 
 FROM builder AS julia
 WORKDIR /src
@@ -58,10 +58,10 @@ COPY /build-wasm/Make.user build-wasm/
 # build_julia_wasm.sh
 RUN source /root/.bashrc && \
   export DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )" && \
-  (cd build-wasm && make VERBOSE=1 --trace -C deps -j 4 BUILDING_HOST_TOOLS=1 install-libuv install-utf8proc 2>&1 | tee log) && \
-  (cd build-wasm && make VERBOSE=1 --trace -C deps -j 4 2>&1 | tee log) && \
-  (cd build-native && make VERBOSE=1 --trace -j 4 2>&1 | tee log) && \
-  (cd build-wasm && make VERBOSE=1 --trace -j 4 julia-ui-release 2>&1 | tee log)
+  (cd build-wasm && make VERBOSE=1 --trace -C deps -j 8 BUILDING_HOST_TOOLS=1 install-libuv install-utf8proc 2>&1 | tee log) && \
+  (cd build-wasm && make VERBOSE=1 --trace -C deps -j 8 2>&1 | tee log) && \
+  (cd build-native && make VERBOSE=1 --trace -j 8 2>&1 | tee log) && \
+  (cd build-wasm && make VERBOSE=1 --trace -j 8 julia-ui-release 2>&1 | tee log)
 
 # rebuild_julia_wasm.sh
 

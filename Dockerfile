@@ -50,6 +50,7 @@ RUN echo "LLVM_ROOT='/llvm-build/bin'" >> /emsdk/.emscripten && \
 RUN git clone https://github.com/JuliaLang/julia /julia
 WORKDIR /julia
 RUN git checkout vc/wasm
+COPY /Makefile ./
 RUN make O=build-native configure && \
   make O=build-wasm configure
 COPY /build-native/Make.user build-native/
